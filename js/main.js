@@ -3,9 +3,10 @@ function main() {
       camera,
       renderer,
       render,
-      particles =[],
+      particles = [],
       totalPartCount = 1000,
-      zPos = 1000;
+      zPos = 1000,
+      speed = 5;
 
   scene = new THREE.Scene();
 
@@ -28,6 +29,7 @@ function main() {
     var i,
         particle,
         step = Math.ceil(2 * zPos / totalPartCount);
+
     for (i = -zPos; i < zPos; i+=step) {
       particle = Particle();
       particle.position.x = Math.random() * 1000 - 500;
@@ -38,9 +40,18 @@ function main() {
       particles.push(particle);
     }
   }
-
+  initParticles();
   function updateParticles() {
-    
+    var i,
+        particle;
+    for (i = 0; i < particles.length; ++i) {
+      particle = particles[i];
+      if (particle.position.z >= zPos) {
+        particle.position.z = -zPos;
+      } else {
+        particle.position.z += speed;
+      }
+    }
   }
 
   render = function () {

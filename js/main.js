@@ -4,14 +4,14 @@ function main() {
       renderer,
       render,
       particles = [],
-      totalPartCount = 1000,
-      zPos = 1000,
+      totalPartCount = 3000,
+      zPos = 2000,
       speed = 5;
 
   function init() {
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.1, zPos );
     // move the camera backwards (because default position is 0,0,0)
     camera.position.z = zPos;
 
@@ -34,7 +34,7 @@ function main() {
   }
 
   function Particle(){
-    var geometry = new THREE.CircleGeometry( 5, 64 );
+    var geometry = new THREE.CircleGeometry( 2, 16 );
     var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
     var circle = new THREE.Mesh( geometry, material );
     return circle;
@@ -47,15 +47,14 @@ function main() {
 
     for (i = -zPos; i < zPos; i+=step) {
       particle = Particle();
-      particle.position.x = Math.random() * 1000 - 500;
-      particle.position.y = Math.random() * 1000 - 500;
+      particle.position.x = Math.random() * 3000 - 1500;
+      particle.position.y = Math.random() * 3000 - 1500;
       particle.position.z = i;
-      particle.scale.x = particle.scale.y = 0.3;
       scene.add(particle);
       particles.push(particle);
     }
   }
-  
+
   function updateParticles() {
     var i,
         particle;
@@ -69,11 +68,17 @@ function main() {
     }
   }
 
+  function updateCameraPosition(){
+    //TODO: cyclically change camera position from
+    // left to right
+  }
+
   render = function () {
     requestAnimationFrame( render );
 
     updateParticles();
-    
+    updateCameraPosition();
+
     renderer.render(scene, camera);
   };
 

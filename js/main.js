@@ -8,23 +8,30 @@ function main() {
       zPos = 1000,
       speed = 5;
 
-  scene = new THREE.Scene();
+  function init() {
+    scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  // move the camera backwards (because default position is 0,0,0)
-  camera.position.z = zPos;
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    // move the camera backwards (because default position is 0,0,0)
+    camera.position.z = zPos;
 
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.appendChild( renderer.domElement );
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    initParticles();
+
+    window.addEventListener( 'resize', onWindowResize, false );
+
+    render();
+  }
+  
 
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
   }
-
-  window.addEventListener( 'resize', onWindowResize, false );
 
   function Particle(){
     var geometry = new THREE.CircleGeometry( 5, 64 );
@@ -48,7 +55,7 @@ function main() {
       particles.push(particle);
     }
   }
-  initParticles();
+  
   function updateParticles() {
     var i,
         particle;
@@ -70,7 +77,7 @@ function main() {
     renderer.render(scene, camera);
   };
 
-  render();
+  init();
 }
 
 main();

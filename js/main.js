@@ -18,8 +18,16 @@ function main() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+  window.addEventListener( 'resize', onWindowResize, false );
+
   function Particle(){
-    var geometry = new THREE.CircleGeometry( 5, 32 );
+    var geometry = new THREE.CircleGeometry( 5, 64 );
     var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
     var circle = new THREE.Mesh( geometry, material );
     return circle;
@@ -35,7 +43,7 @@ function main() {
       particle.position.x = Math.random() * 1000 - 500;
       particle.position.y = Math.random() * 1000 - 500;
       particle.position.z = i;
-      //particle.scale.x = particle.scale.y = 10;
+      particle.scale.x = particle.scale.y = 0.3;
       scene.add(particle);
       particles.push(particle);
     }
